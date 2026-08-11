@@ -1,0 +1,692 @@
+<title>jbkhokhani.com — Technical, SEO & Answer-Engine Audit</title>
+<style>
+:root{
+  --paper:#F2F4F1;
+  --surface:#FFFFFF;
+  --surface-2:#E9EDE8;
+  --ink:#141A18;
+  --ink-2:#3D4744;
+  --muted:#68736E;
+  --rule:#D6DCD4;
+  --rule-strong:#B8C2B8;
+  --accent:#1F4E46;
+  --accent-soft:#DCE8E3;
+  --crit:#94241F;
+  --crit-soft:#F6E2E0;
+  --warn:#8A5A0F;
+  --warn-soft:#F6EBD8;
+  --pass:#2A6549;
+  --pass-soft:#DEEBE1;
+  --shadow:0 1px 2px rgba(20,26,24,.05), 0 8px 24px -16px rgba(20,26,24,.25);
+
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E110F;
+    --surface:#161A18;
+    --surface-2:#1D2320;
+    --ink:#E7EBE7;
+    --ink-2:#BDC5C0;
+    --muted:#8D9791;
+    --rule:#262D29;
+    --rule-strong:#39423D;
+    --accent:#6FBCA9;
+    --accent-soft:#16302B;
+    --crit:#E8837B;
+    --crit-soft:#33191A;
+    --warn:#D9A552;
+    --warn-soft:#2E2415;
+    --pass:#6FB58C;
+    --pass-soft:#16291F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E110F;
+  --surface:#161A18;
+  --surface-2:#1D2320;
+  --ink:#E7EBE7;
+  --ink-2:#BDC5C0;
+  --muted:#8D9791;
+  --rule:#262D29;
+  --rule-strong:#39423D;
+  --accent:#6FBCA9;
+  --accent-soft:#16302B;
+  --crit:#E8837B;
+  --crit-soft:#33191A;
+  --warn:#D9A552;
+  --warn-soft:#2E2415;
+  --pass:#6FB58C;
+  --pass-soft:#16291F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+
+/* ---------- masthead ---------- */
+.mast{
+  border-bottom:2px solid var(--ink);
+  padding:56px 0 20px;
+  margin-bottom:40px;
+}
+.mast .eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 18px;
+}
+.mast h1{
+  font-size:clamp(30px,4.6vw,50px);
+  line-height:1.05;
+  letter-spacing:-.025em;
+  font-weight:700;
+  margin:0 0 14px;
+  text-wrap:balance;
+}
+.mast .lede{
+  font-size:17px;
+  color:var(--ink-2);
+  max-width:64ch;
+  margin:0 0 26px;
+}
+.meta{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px 28px;
+  font-family:var(--mono);
+  font-size:12px;
+  border-top:1px solid var(--rule);
+  padding-top:16px;
+}
+.meta div span{display:block;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-size:10px;margin-bottom:3px}
+.meta div b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* ---------- scoreboard ---------- */
+.board{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  gap:2px;
+  background:var(--rule);
+  border:1px solid var(--rule);
+  margin-bottom:16px;
+}
+.cell{background:var(--surface);padding:18px 18px 16px;display:flex;flex-direction:column;gap:4px}
+.cell b{font-size:32px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.cell span{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cell.c b{color:var(--crit)} .cell.h b{color:var(--warn)} .cell.p b{color:var(--pass)}
+.board-note{font-size:13.5px;color:var(--muted);margin:0 0 56px}
+
+/* ---------- sections ---------- */
+section{margin-bottom:64px;scroll-margin-top:24px}
+.sechead{
+  display:flex;align-items:baseline;gap:16px;
+  border-bottom:1px solid var(--rule-strong);
+  padding-bottom:10px;margin-bottom:8px;
+}
+.sechead h2{
+  font-size:24px;font-weight:650;letter-spacing:-.02em;margin:0;flex:1;
+}
+.sechead .tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap;
+}
+.secintro{color:var(--ink-2);font-size:15.5px;max-width:70ch;margin:14px 0 30px}
+
+/* ---------- finding ---------- */
+.find{
+  display:grid;
+  grid-template-columns:158px 1fr;
+  gap:0 28px;
+  padding:26px 0;
+  border-bottom:1px solid var(--rule);
+}
+.find:last-child{border-bottom:0}
+.rail{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.fid{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em}
+.chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;font-weight:600;white-space:nowrap;
+}
+.chip.crit{background:var(--crit-soft);color:var(--crit)}
+.chip.high{background:var(--warn-soft);color:var(--warn)}
+.chip.med{background:var(--surface-2);color:var(--ink-2)}
+.chip.ok{background:var(--pass-soft);color:var(--pass)}
+.effort{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.body h3{font-size:18.5px;font-weight:640;letter-spacing:-.015em;margin:0 0 12px;text-wrap:balance}
+.body p{margin:0 0 12px;max-width:72ch;color:var(--ink-2)}
+.body p strong{color:var(--ink);font-weight:600}
+.body ul{margin:0 0 12px;padding-left:20px;max-width:72ch;color:var(--ink-2)}
+.body li{margin-bottom:6px}
+.body>*:last-child{margin-bottom:0}
+
+.fix{
+  border-left:2px solid var(--accent);
+  background:var(--accent-soft);
+  padding:12px 16px;
+  margin:14px 0 0;
+  max-width:72ch;
+}
+.fix .lbl{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:5px;font-weight:600;
+}
+.fix p,.fix ul{color:var(--ink);margin-bottom:8px}
+.fix>*:last-child{margin-bottom:0}
+
+code{
+  font-family:var(--mono);font-size:.86em;
+  background:var(--surface-2);padding:1px 5px;border-radius:2px;
+  word-break:break-word;
+}
+.fix code{background:var(--surface)}
+
+/* ---------- evidence table ---------- */
+.tablewrap{overflow-x:auto;margin:16px 0 0;border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--surface);min-width:520px}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{
+  font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;background:var(--surface-2);
+}
+td{color:var(--ink-2)}
+td.num,td.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--ink)}
+tr:last-child td{border-bottom:0}
+.v-fail{color:var(--crit);font-weight:600}
+.v-warn{color:var(--warn);font-weight:600}
+.v-ok{color:var(--pass);font-weight:600}
+
+/* ---------- working list ---------- */
+.works{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:2px;background:var(--rule);border:1px solid var(--rule);
+}
+.works div{background:var(--surface);padding:14px 16px;font-size:14px;color:var(--ink-2)}
+.works div b{display:block;color:var(--ink);font-weight:600;margin-bottom:3px;font-size:14.5px}
+
+/* ---------- plan ---------- */
+.plan{border-top:1px solid var(--rule-strong)}
+.phase{
+  display:grid;grid-template-columns:190px 1fr;gap:0 28px;
+  padding:24px 0;border-bottom:1px solid var(--rule);
+}
+.phase .when b{display:block;font-size:16px;font-weight:640;letter-spacing:-.01em;margin-bottom:4px}
+.phase .when span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.phase ol{margin:0;padding-left:20px;color:var(--ink-2);max-width:72ch}
+.phase li{margin-bottom:7px}
+.phase li b{color:var(--ink);font-weight:600}
+
+footer{
+  border-top:2px solid var(--ink);padding-top:20px;margin-top:16px;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.8;
+}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media (max-width:720px){
+  .find,.phase{grid-template-columns:1fr;gap:14px}
+  .rail{flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px}
+  .mast{padding-top:36px}
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">Site audit · jbkhokhani.com · 11 August 2026</p>
+  <h1>The content is in good shape. The plumbing underneath it is not.</h1>
+  <p class="lede">All 274 pages were crawled, plus DNS, TLS, headers, redirects, structured data, asset payloads and answer-engine surfaces. The SEO work already done on this site is genuinely above average for the sector — and almost all of it is currently pointed at a hostname that a large share of the internet cannot resolve.</p>
+  <div class="meta">
+    <div><span>Pages crawled</span><b>274 / 274 · all 200</b></div>
+    <div><span>Product pages</span><b>241 + 10 probiotic</b></div>
+    <div><span>Served from</span><b>Apache · 108.62.116.10</b></div>
+    <div><span>Critical findings</span><b>4</b></div>
+  </div>
+</header>
+
+<div class="board">
+  <div class="cell c"><b>4</b><span>Critical</span></div>
+  <div class="cell h"><b>6</b><span>High</span></div>
+  <div class="cell"><b>12</b><span>Medium</span></div>
+  <div class="cell p"><b>11</b><span>Already right</span></div>
+</div>
+<p class="board-note">Findings are ordered by what they cost you, not by how hard they are to fix. The first four are all infrastructure, all cheap, and all worth more than any amount of content work until they are done.</p>
+
+<!-- ============ CRITICAL ============ -->
+<section id="critical">
+  <div class="sechead"><h2>Critical — fix this week</h2><span class="tag">JBK-01 → JBK-04</span></div>
+  <p class="secintro">These four compound. Each one alone would be a bad day; together they mean the URL you have optimised, the URL Google has indexed, and the URL that actually serves the site are three different things — and one of them intermittently does not resolve at all.</p>
+
+  <div class="find">
+    <div class="rail">
+      <span class="fid">JBK-01</span>
+      <span class="chip crit">Critical</span>
+      <span class="effort">~1 hour</span>
+    </div>
+    <div class="body">
+      <h3>Your authoritative DNS is failing. Cloudflare's resolver cannot resolve the domain at all.</h3>
+      <p>The domain delegates to four <code>orderbox-dns.com</code> nameservers (162.251.82.x). Those servers are answering <code>SERVFAIL</code> and <code>REFUSED</code> to some public resolvers and taking 2–3 seconds to answer others. This is not a website problem — it is a "the domain does not exist" problem, for whoever happens to ask the wrong resolver.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Resolver</th><th>Query</th><th>Result</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">1.1.1.1 Cloudflare</td><td class="mono">jbkhokhani.com A</td><td class="v-fail">SERVFAIL ×3</td><td>"No Reachable Authority at delegation"</td></tr>
+            <tr><td class="mono">1.1.1.1 Cloudflare</td><td class="mono">www…&nbsp;A</td><td class="v-fail">SERVFAIL ×3</td><td>auth returned SERVFAIL / REFUSED</td></tr>
+            <tr><td class="mono">AdGuard DNS</td><td class="mono">www…&nbsp;A</td><td class="v-fail">SERVFAIL</td><td>no answer returned</td></tr>
+            <tr><td class="mono">8.8.8.8 Google</td><td class="mono">jbkhokhani.com A</td><td class="v-ok">OK</td><td>resolves to 108.62.116.10</td></tr>
+            <tr><td class="mono">8.8.8.8 Google</td><td class="mono">jbkhokhani.com NS</td><td class="v-warn">Slow</td><td>2039 ms — "some clients may time out"</td></tr>
+            <tr><td class="mono">8.8.8.8 Google</td><td class="mono">jbkhokhani.com MX</td><td class="v-warn">Slow</td><td>3031 ms · mail is on Microsoft 365</td></tr>
+            <tr><td class="mono">8.8.8.8 Google</td><td class="mono">jbkhokhani.com TXT</td><td class="v-fail">REFUSED</td><td>from 162.251.82.253 — SPF/DMARC unreadable</td></tr>
+            <tr><td class="mono">—</td><td class="mono">DS record</td><td class="v-warn">Absent</td><td>DNSSEC not enabled</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px">Cloudflare's <code>1.1.1.1</code> is the default resolver on a great many home routers, on iOS/Android private DNS, and on every device running WARP. Those users get a browser error, not your site. Independent external fetchers (r.jina.ai, codetabs) also failed to resolve the hostname during this audit while Google-DNS-backed paths succeeded — consistent with a partial, resolver-dependent outage rather than anything intermittent on the web server, which answered every one of the 274 page requests cleanly.</p>
+      <p>The TXT failure has a second cost: if resolvers cannot read your SPF and DMARC records, mail sent from the domain is more likely to be treated as unauthenticated. Your MX points at Microsoft 365, so real business mail is riding on this too.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Move DNS hosting off the registrar's <code>orderbox-dns</code> servers to Cloudflare DNS or AWS Route 53 — both free or near-free, both anycast, both answer in under 30 ms globally. Change the nameservers at the registrar, copy the existing records across first (A, the <code>www</code> CNAME, the Microsoft 365 MX and its autodiscover/SPF/DMARC/DKIM TXT records), then enable DNSSEC. Verify afterwards on <code>1.1.1.1</code>, <code>8.8.8.8</code> and <code>9.9.9.9</code> before doing anything else on this list.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail">
+      <span class="fid">JBK-02</span>
+      <span class="chip crit">Critical</span>
+      <span class="effort">~2 hours</span>
+    </div>
+    <div class="body">
+      <h3>Every canonical, the sitemap, robots.txt, llms.txt and all schema URLs point to <code>www</code> — the site is served and indexed on the bare domain.</h3>
+      <p>All 274 pages carry <code>&lt;link rel="canonical" href="https://www.jbkhokhani.com/…"&gt;</code>. So do <code>og:url</code>, the <code>Organization</code>, <code>WebSite</code>, <code>LocalBusiness</code>, <code>Product</code> and <code>BreadcrumbList</code> nodes, all 274 sitemap entries, the <code>Sitemap:</code> line in robots.txt, and every link in llms.txt. Meanwhile the live site answers on <code>https://jbkhokhani.com/</code>, and the bare domain is what search results actually show.</p>
+      <p>Combined with JBK-01, this means <strong>you are telling every crawler that the real address of all 274 pages is a hostname that a substantial set of resolvers cannot look up.</strong> A canonical tag pointing at an unresolvable host is worse than no canonical tag.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Pick the bare domain — it is what is already indexed, so switching costs nothing. Then, in one deploy: rewrite the canonical/OG/schema base URL, regenerate sitemap.xml and llms.txt, update the robots.txt <code>Sitemap:</code> line, and add a server-side 301 from <code>www</code> to the bare domain so the CNAME still catches anyone who types it. Keep <code>www</code> resolving — just redirect it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail">
+      <span class="fid">JBK-03</span>
+      <span class="chip crit">Critical</span>
+      <span class="effort">~15 min</span>
+    </div>
+    <div class="body">
+      <h3>There is no HTTP → HTTPS redirect. The insecure version is what Google is showing.</h3>
+      <p><code>http://jbkhokhani.com/</code> returns <code>200 OK</code> and serves the full site — no redirect, no HSTS header. Every page therefore exists at four addresses (http/https × bare/www), all serving identical content, none redirecting to the others.</p>
+      <p>This is not theoretical. The search result currently indexed for this site is <code>http://jbkhokhani.com/</code>, carrying an <em>older</em> title ("J. B. Khokhani &amp; Co. — Pharmaceutical API Supplier Since 1965 | JBK") and a stale "310+ APIs" claim that no longer appears anywhere on the live site. Google is holding on to a cached copy of a URL you are not maintaining.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>In <code>.htaccess</code>, 301 everything to <code>https://</code> on the bare domain, then add <code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code>. Do this after JBK-01 — HSTS on a domain with unreliable DNS is a bad combination to debug.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail">
+      <span class="fid">JBK-04</span>
+      <span class="chip crit">Critical</span>
+      <span class="effort">~1 hour</span>
+    </div>
+    <div class="body">
+      <h3>Every URL you publish redirects. Canonicals point at redirects; all 757 internal links point at redirects.</h3>
+      <p>Pages are deployed as directories (<code>/about/index.html</code>), so Apache's <code>DirectorySlash</code> 301-redirects <code>/about</code> to <code>/about/</code>. But nothing in your markup uses the trailing slash:</p>
+      <ul>
+        <li>Canonical tags: 273 of 274 have no trailing slash → the canonical target is itself a 301.</li>
+        <li>Sitemap: all 274 entries have no trailing slash → 274 redirect hops on every crawl.</li>
+        <li>Internal links: <strong>757 of 757</strong> hrefs sampled across 17 page types have no trailing slash.</li>
+      </ul>
+      <p>A canonical URL that redirects is a self-cancelling instruction: Google follows the redirect and canonicalises to the destination instead, so you lose control of which URL is authoritative. And with 274 pages, you are spending your whole crawl allowance on 301s.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Easiest path: emit the trailing slash everywhere — canonicals, sitemap, llms.txt, schema <code>url</code> and <code>item</code> fields, and every internal <code>href</code>. Alternative: configure Apache to serve <code>/about</code> directly (<code>DirectorySlash Off</code> plus a rewrite to the index file) so no redirect happens. Either works; what matters is that the URL you publish is the URL that answers 200.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HIGH ============ -->
+<section id="high">
+  <div class="sechead"><h2>High — on-page SEO</h2><span class="tag">JBK-05 → JBK-10</span></div>
+  <p class="secintro">Structurally the on-page work is sound: unique titles, unique descriptions, exactly one H1 per page, zero duplicates across 274 pages, real 404 status codes, alt text on every image. The problems are in calibration and in depth.</p>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-05</span><span class="chip high">High</span><span class="effort">~1 day</span></div>
+    <div class="body">
+      <h3>240 meta descriptions are exactly 320 characters — half of each one is cut off in results.</h3>
+      <p>The median description length across the site is 320 characters; 269 of 274 exceed 160. Google renders roughly 155–160 on desktop and less on mobile, so on a typical product page the visible snippet ends mid-sentence in the boilerplate category paragraph, before any reason to click has appeared.</p>
+      <p>Metformin, for example, currently spends its visible snippet on "Metformin (Antidiabetics), CAS 657-24-9, 1115-70-4. Supplied by J. B. Khokhani &amp; Co. since 1965. Biguanide antidiabetic, first-line oral…" and cuts there — the grades, the documentation and the sample offer all fall past the fold.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Cap the generator at ~155 characters and front-load the commercial hook. Template: <code>{Name} API, CAS {cas}. IP/BP/EP/USP grades from a Mumbai supplier since 1965. CoA, MSDS and DMF support. Request a sample.</code> That lands at ~140 and every word of it survives truncation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-06</span><span class="chip high">High</span><span class="effort">~2 hours</span></div>
+    <div class="body">
+      <h3>143 of 274 titles exceed 60 characters, mostly because the brand suffix is 23 characters long.</h3>
+      <p>Every title ends <code> | J. B. Khokhani &amp; Co.</code>. On a page like "Metformin API Supplier in India | J. B. Khokhani &amp; Co." (54 chars) that is fine. On the product index it produces a 99-character title, and on the nutraceutical pages 92–97, where Google rewrites or truncates and you lose control of the snippet.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Use the short brand form <code> | JBK</code> on product, category and probiotic pages, keeping the full legal name for the homepage, About, Contact and Quality. That reclaims 17 characters across 251 pages. Then shorten the outliers: "Complete Pharmaceutical Product Index 250+ APIs, Veterinary &amp; Nutraceuticals" → "Full Product Index: 250+ APIs &amp; Nutraceuticals".</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-07</span><span class="chip high">High</span><span class="effort">Ongoing</span></div>
+    <div class="body">
+      <h3>241 product pages average 183 words and share one template — too thin to outrank the directories.</h3>
+      <p>264 of 274 pages are under 300 words. The thinnest product page (<code>/products/sabam</code>) has 142; the richest ordinary product page has 216. Each consists of the substance name, CAS numbers, a one-line pharmacological description, a boilerplate paragraph that is identical for every product in the category, and a "Related products" strip.</p>
+      <p>Two consequences. First, at 241 near-identical pages this is the shape Google's quality systems look at when deciding whether a catalogue is a genuine reference or a doorway set. Second, and more immediately: searching "paracetamol API supplier India" returns PharmaCompass, PharmaOffer, ensun and Chemcopia — directory pages with specifications, DMF status and multiple suppliers. Your page has 245 words and cannot compete on that ground.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>You do not need this on all 241. Take the 30–40 products you actually want enquiries for and give each 400–600 words of genuinely product-specific content: pharmacopoeial grades you can supply and against which monograph; standard pack sizes and packing type; typical assay and key impurity limits; storage and shelf life; the salts/hydrates you can source and how they differ; which documents ship with a consignment (CoA, MSDS, DMF, CEP where applicable); and typical applications. Leave the long tail on the current template — as a catalogue it is fine; as a ranking asset it is not.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-08</span><span class="chip high">High</span><span class="effort">~half day</span></div>
+    <div class="body">
+      <h3>Product schema has no <code>image</code>, so none of the 251 product pages is eligible for product rich results.</h3>
+      <p>The <code>Product</code> nodes carry <code>name</code>, <code>category</code>, <code>description</code>, <code>url</code>, <code>brand</code> and a well-built <code>additionalProperty</code> array with CAS numbers. <code>image</code> is required by Google for Product rich results and is absent everywhere. There is also no <code>identifier</code>, no <code>offers</code>, and no <code>sameAs</code>.</p>
+      <p>Underneath that is a plainer problem: the product pages have <strong>no product imagery at all</strong> — the only two images in the markup are the header and footer logos. That forfeits image search entirely and makes the pages look thinner than they are.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Add one real image per product — a molecular structure diagram, a drum/packing photo, or a consistent branded card carrying the name, CAS and grades. Reference it from <code>image</code>. Add <code>identifier</code> as a <code>PropertyValue</code> with <code>propertyID: "CAS"</code> (keep the existing <code>additionalProperty</code>; <code>identifier</code> is the field consumers actually read), and add <code>sameAs</code> pointing to the substance's PubChem, DrugBank and Wikidata entries — see JBK-20.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-09</span><span class="chip high">High</span><span class="effort">~5 min</span></div>
+    <div class="body">
+      <h3><code>/products-index</code> is <code>noindex</code> but is submitted in the sitemap.</h3>
+      <p>It is the one page of 274 carrying <code>noindex, follow</code>, and it sits in sitemap.xml at priority 0.7. Search Console reports this as "Submitted URL marked 'noindex'" — an error, not a warning. It is also your best internal-linking page, with 262 outbound links.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Decide which it is. If it is a crawl aid, drop it from the sitemap and keep <code>noindex, follow</code> — the links still pass. If you want it indexed as a reference page, remove the <code>noindex</code>; a well-organised 656-word index of 250+ substances is a legitimate page.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-10</span><span class="chip high">High</span><span class="effort">~1 hour</span></div>
+    <div class="body">
+      <h3>The 404 page is Apache's default — 355 bytes of unstyled text.</h3>
+      <p>The status code is correct, which matters and many sites get wrong. But the page itself is the bare server default: no header, no navigation, no search, no branding. With 274 URLs, many of them long chemical slugs prone to mistyping, and a pending trailing-slash migration that will inevitably strand a few links, this is a real leak.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p><code>ErrorDocument 404 /404/index.html</code> pointing at a prerendered page with the site chrome, the product search box, and links to Products, Probiotics and Contact. Keep it returning a genuine 404 status.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERFORMANCE ============ -->
+<section id="perf">
+  <div class="sechead"><h2>Medium — delivery &amp; performance</h2><span class="tag">JBK-11 → JBK-16</span></div>
+  <p class="secintro">The homepage pulls 693 KB compressed across the assets its HTML references, and roughly two-thirds of that is logo images and JavaScript that a brochure site does not need.</p>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-11</span><span class="chip med">Medium</span><span class="effort">~1 hour</span></div>
+    <div class="body">
+      <h3>451 KB of logo. Three files, two formats, one mark.</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Asset</th><th>Role</th><th>Transferred</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">2_without_background…png</td><td>Footer lockup</td><td class="num">302.2 KB</td></tr>
+            <tr><td class="mono">1_without_background.optimized…png</td><td>Header logo, 40 px tall</td><td class="num">88.7 KB</td></tr>
+            <tr><td class="mono">1_without_background…webp</td><td>Same header logo, preloaded <code>fetchpriority=high</code></td><td class="num">60.2 KB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px">PNGs do not compress further over the wire — those are the true sizes. A 302 KB footer image is more than the entire JavaScript framework payload of most sites. And the header logo appears twice: the prerendered markup uses the <code>.png</code> while a <code>.webp</code> of the same mark is preloaded at high priority, so unless hydration swaps in the preloaded file exactly, both download.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Export both marks to AVIF with a WebP fallback — expect ~15–25 KB for the footer and under 8 KB for the header, a saving of roughly 420 KB. Better still, if the mark is vector in origin, ship SVG and the file drops to a few KB at any density. Then confirm in DevTools that the preloaded file is the one actually rendered; an unused preload is a double download plus a console warning.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-12</span><span class="chip med">Medium</span><span class="effort">~1 day</span></div>
+    <div class="body">
+      <h3>213 KB gzipped / 670 KB parsed of JavaScript for a page that is fully prerendered.</h3>
+      <p>The entry bundle is <code>index-neaHuJ2I.js</code> at 213.1 KB compressed, plus 20.7 KB of CSS. The build carries MUI <em>and</em> Radix UI <em>and</em> Motion <em>and</em> Embla <em>and</em> canvas-confetti. Since every route is already prerendered to static HTML, all of that JS exists only to hydrate and animate content the visitor can already see — it is pure Interaction-to-Next-Paint cost on mid-range mobile hardware, which is what a procurement manager in a plant is holding.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Run <code>rollup-plugin-visualizer</code> and look for the two overlapping component libraries first — MUI and Radix do the same job, and dropping one should take a large bite. Lazy-load the carousels, the confetti and any below-fold animation behind <code>IntersectionObserver</code>. Target under 120 KB gzip for the entry chunk.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-13</span><span class="chip med">Medium</span><span class="effort">~15 min</span></div>
+    <div class="body">
+      <h3>gzip only — no Brotli.</h3>
+      <p>Every text response comes back <code>Content-Encoding: gzip</code>. Brotli typically saves another 15–20% on JS and CSS, which on the current entry bundle is roughly 35 KB per first visit.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Enable <code>mod_brotli</code> and add <code>AddOutputFilterByType BROTLI_COMPRESS</code> for HTML, CSS, JS, JSON, SVG and XML. Caching is already right — hashed assets carry <code>max-age=31536000</code>, and HTML correctly carries <code>must-revalidate</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-14</span><span class="chip med">Medium</span><span class="effort">~30 min</span></div>
+    <div class="body">
+      <h3>The intro animation is hidden from Lighthouse, PageSpeed and GTmetrix by user-agent — so your scores are measuring a page your visitors never get.</h3>
+      <p>An inline script in <code>&lt;head&gt;</code> tests the user agent against <code>/lighthouse|headlesschrome|chrome-lighthouse|googlebot|bingbot|…|pingdom|gtmetrix|pagespeed/</code> and skips the full-viewport "curtain" for anything matching. Real visitors get the curtain, with a 6-second failsafe timeout before it clears.</p>
+      <p>The code comment is candid about why ("a curtain over the viewport wrecks Speed Index"). Two problems follow. The measurement problem is the bigger one: your lab scores are structurally unable to see your worst rendering path, so field data in Search Console will keep disagreeing with PageSpeed and you will not know why. The policy problem is smaller but real — serving materially different rendering to Googlebot on the basis of user-agent is the pattern cloaking rules describe, and while a decorative overlay is not what those rules are aimed at, the exception list here has no upside that justifies carrying it.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Drop the bot list and let the tools measure the real page. If the resulting Speed Index is unacceptable, that is the honest signal to make the intro shorter, lighter, or first-visit-only by a much stricter rule — and it is worth checking whether a 6-second curtain on a B2B sourcing site earns its cost at all.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-15</span><span class="chip med">Medium</span><span class="effort">~20 min</span></div>
+    <div class="body">
+      <h3>No security headers of any kind.</h3>
+      <p>Responses carry no <code>Strict-Transport-Security</code>, <code>X-Content-Type-Options</code>, <code>Referrer-Policy</code>, <code>Permissions-Policy</code> or <code>Content-Security-Policy</code>. Not a ranking factor, but this is a site whose entire value proposition is that it is a trustworthy supplier holding regulatory documentation — and prospective clients' security teams do run header scans on vendors.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Four lines in <code>.htaccess</code>: HSTS (after JBK-03), <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy: strict-origin-when-cross-origin</code>, and a restrictive <code>Permissions-Policy</code>. CSP is worth doing but needs care around Google Tag Manager — do it last, in report-only mode first.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-16</span><span class="chip med">Medium</span><span class="effort">~2 hours</span></div>
+    <div class="body">
+      <h3>Sitemap hygiene: 274 identical <code>lastmod</code> dates.</h3>
+      <p>Every entry says <code>2026-08-11</code> — the build date, not the content date. When every page claims to have changed on the same day, every deploy, crawlers learn to ignore the field, and you lose the one lever you have for telling Google which pages actually changed. There is also no image sitemap (moot until JBK-08 adds images) and no <code>hreflang</code> annotation.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Emit <code>lastmod</code> from real per-page content modification, not the build clock. On <code>hreflang</code>: not needed today with one English version, but if you ever build country-specific pages for the export markets, it becomes mandatory rather than optional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GEO / AEO ============ -->
+<section id="geo">
+  <div class="sechead"><h2>Answer engines — GEO &amp; AEO</h2><span class="tag">JBK-17 → JBK-22</span></div>
+  <p class="secintro">This is the strongest part of the site and the part with the most headroom. You already have an llms.txt that most competitors do not, a robots.txt that names AI crawlers explicitly, and structured data covering Product, BreadcrumbList, FAQPage, HowTo, Dataset and CollectionPage. The gap is that answer engines do not just read your site — they reconcile it against everything else that mentions you, and right now those sources disagree with you.</p>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-17</span><span class="chip high">High</span><span class="effort">included in JBK-02</span></div>
+    <div class="body">
+      <h3>llms.txt is well written — and every URL in it points to the wrong host.</h3>
+      <p>The file is genuinely good: it states plainly that the company is a distributor and not a manufacturer, gives CAS coverage (233 of 241), names flagship ingredients with real specifications, and includes a "Notes for answer engines" section flagging which figures are company-stated. That last part is unusually honest and exactly the kind of thing that makes a model willing to cite you.</p>
+      <p>But all nine "Key pages" links, the products/probiotics URL patterns and the sitemap link all use <code>https://www.jbkhokhani.com/</code>. A model that follows them hits the resolver problem in JBK-01.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Rewrite with the canonical host and trailing slashes as part of the JBK-02 deploy. While you are in the file: the catalogue count says 241 products and the site's marketing says "250+" — reconcile them, because that exact kind of small discrepancy is what makes a model hedge instead of asserting.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-18</span><span class="chip med">Medium</span><span class="effort">~2 hours</span></div>
+    <div class="body">
+      <h3>The entity graph is fragmented — four disconnected nodes describing one company.</h3>
+      <p>Every page emits <code>Organization</code>, <code>WebSite</code>, <code>LocalBusiness</code> and <code>WebPage</code>. Only <code>LocalBusiness</code> has an <code>@id</code>. Nothing references anything else, so a consumer sees four separate things that happen to share a name rather than one entity described four ways — and on product pages, nothing connects the <code>Product</code> to the company that supplies it beyond a <code>brand</code> string.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Give every node a stable <code>@id</code> (<code>/#organization</code>, <code>/#website</code>, <code>/#localbusiness</code>, and <code>{url}#webpage</code>) and wire them: <code>WebSite.publisher</code> → the Organization; <code>LocalBusiness.parentOrganization</code> → the Organization; <code>WebPage.isPartOf</code> → the WebSite and <code>WebPage.about</code> → the Product. Then emit them as a single <code>@graph</code> instead of five separate script blocks. Also add to <code>Organization</code>: <code>numberOfEmployees</code>, <code>slogan</code>, <code>knowsAbout</code> (your therapeutic categories), and <code>award</code>/<code>hasCredential</code> for the certifications on the Quality page.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-19</span><span class="chip high">High</span><span class="effort">~1 day</span></div>
+    <div class="body">
+      <h3>Third-party profiles contradict your own site — and answer engines are averaging them.</h3>
+      <p>Asked about the company, search and AI surfaces return a composite drawn mostly from directories, and it does not match what you say about yourself:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Claim in the wild</th><th>Source type</th><th>Your position</th></tr></thead>
+          <tbody>
+            <tr><td>"exporter, <strong>manufacturer</strong> and supplier"</td><td>IndiaMART / TradeIndia</td><td class="v-fail">Contradicts llms.txt — distributor, not manufacturer</td></tr>
+            <tr><td>"3 branches at Bhiwandi, Baddi and Haridwar"</td><td>Directory profile</td><td class="v-fail">Not stated anywhere on your site</td></tr>
+            <tr><td>"310+ APIs"</td><td>Cached listings</td><td class="v-warn">Site says 250+; llms.txt says 241</td></tr>
+            <tr><td>Registered office, Worli, Mumbai 400030</td><td>Multiple</td><td class="v-ok">Consistent</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px">Your <code>sameAs</code> lists six profiles (LinkedIn, Facebook, IndiaMART, Ingredients Network, iPHEX, CPHI) but omits TradeIndia, PharmaSource and RocketReach, which are all indexed and all being read. The "manufacturer" claim is the one that matters most: it is the difference between being recommended for a sourcing enquiry and being recommended for something you cannot deliver.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Claim and correct the IndiaMART, TradeIndia, PharmaSource and RocketReach profiles so each states "distributor and indenting agent, established 1965" in the same words your site uses. Add all of them to <code>sameAs</code>. Create or claim a Google Business Profile for the Worli office and add it too — it is the single strongest local-entity signal and you currently have none. If a Wikidata item does not exist, create one with founding date, location and the official site; it is a common grounding source for AI answers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-20</span><span class="chip med">Medium</span><span class="effort">~1 day</span></div>
+    <div class="body">
+      <h3>CAS numbers are published but not linked to any external substance identity.</h3>
+      <p>Publishing CAS on 233 of 241 products is the right instinct, and llms.txt correctly calls them "the reliable key for matching a product here to the same substance in another source." But nothing in the markup makes that join for a machine — no <code>sameAs</code> to PubChem, DrugBank, ChEMBL or Wikidata, no UNII, no InChIKey.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>PubChem's PUG-REST API resolves CAS to a CID in one call; run it once over the 233 and store the mapping. Then add per product: <code>sameAs</code> to the PubChem, DrugBank and Wikidata pages, and <code>identifier</code> entries for CAS, UNII and InChIKey. This is the highest-leverage GEO change on the list — it converts 241 orphan pages into 241 pages attached to substances the models already know, so a question about metformin sourcing can reach you through the substance rather than only through your brand name.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-21</span><span class="chip med">Medium</span><span class="effort">~half day</span></div>
+    <div class="body">
+      <h3>No commercial facts anywhere — no MOQ, pack size, lead time or availability.</h3>
+      <p>Product pages carry no <code>offers</code> node and no commercial detail in the copy. B2B sourcing questions put to an AI assistant are almost always commercial ("who supplies X in EP grade, what's the minimum order, how fast can they ship to Y") and there is nothing on these pages for a model to answer with, so it answers from a directory instead.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>Add a short specifications block in the visible copy — grades, standard packing (e.g. 25 kg HDPE drums), indicative MOQ, typical lead time, and "price on application, sample on request". Mirror it in schema as an <code>Offer</code> with <code>availability</code>, <code>areaServed</code>, <code>seller</code> and <code>businessFunction</code>. Omit <code>price</code> rather than faking one — an <code>Offer</code> without a price is valid; a wrong price is not.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="find">
+    <div class="rail"><span class="fid">JBK-22</span><span class="chip med">Medium</span><span class="effort">Ongoing</span></div>
+    <div class="body">
+      <h3>Two answer-shaped pages for a company with sixty years of answers.</h3>
+      <p>The FAQ (1,392 words, proper <code>FAQPage</code> markup) and the creatine comparison (with <code>Article</code> + <code>Dataset</code> and a disclosed method) are the two best pages on the site, and they are the two most likely to be cited by an AI answer. There are no others. Everything else is either a catalogue entry or a corporate page.</p>
+      <div class="fix">
+        <span class="lbl">Fix</span>
+        <p>The creatine comparison is the model: a specific question, real measured data, method disclosed. Build six to ten more of the same shape from what you already know — "IP vs BP vs EP vs USP: what actually differs for a formulator", "What a CoA should contain and how to read one", "DMF, CEP and ASMF: which one your filing needs", "How to qualify an API supplier in India", "Vitamin K2-7 forms compared: MK-7 potency, carrier and stability", "Spore-forming vs freeze-dried probiotics: which survives your process". Each one is a question a buyer actually types, and each one is answerable from in-house expertise rather than research.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKING ============ -->
+<section id="working">
+  <div class="sechead"><h2>What is already right</h2><span class="tag">Do not regress these</span></div>
+  <p class="secintro">Worth stating plainly, because the fixes above involve touching this machinery: the foundation here is better than most sites in this sector, and several of these are things teams spend months getting wrong.</p>
+  <div class="works">
+    <div><b>Full prerendering</b>All 274 React routes ship as static HTML with content, headings and metadata already in the source — no JS execution needed to index.</div>
+    <div><b>Zero duplicates</b>274 unique titles, 274 unique descriptions, 274 unique H1s. Exactly one H1 per page. No page missing either.</div>
+    <div><b>Every URL answers 200</b>All 274 sitemap URLs resolve to a live page. No orphans, no soft 404s, no broken sitemap entries.</div>
+    <div><b>Correct 404 status</b>Unknown paths return a genuine 404, not a 200 with an error page — the mistake almost every SPA makes.</div>
+    <div><b>Deep structured data</b>Product, BreadcrumbList, FAQPage, HowTo, Dataset, CollectionPage, ItemList, LocalBusiness, Organization — all valid JSON-LD, all parsing cleanly.</div>
+    <div><b>Complete alt text</b>Zero images missing alt attributes across every page sampled, and the alt text is descriptive rather than keyword-stuffed.</div>
+    <div><b>AI crawlers named explicitly</b>robots.txt allows GPTBot, ClaudeBot, PerplexityBot, CCBot, Google-Extended and Applebot-Extended by name, with a comment explaining the intent.</div>
+    <div><b>An honest llms.txt</b>Including a "Notes for answer engines" section that flags which figures are company-stated — rare, and exactly the right instinct.</div>
+    <div><b>Accessible contact form</b>Seven labelled fields, correct input types, a honeypot for spam, and a visible skip-to-content link.</div>
+    <div><b>Consent Mode v2, denied by default</b>Analytics and ad storage both start denied with a 500 ms <code>wait_for_update</code>. Correctly implemented.</div>
+    <div><b>Asset caching</b>Content-hashed filenames with <code>max-age=31536000</code>, HTML with <code>must-revalidate</code>. Exactly right.</div>
+  </div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section id="plan">
+  <div class="sechead"><h2>Order of work</h2><span class="tag">Sequenced by dependency</span></div>
+  <p class="secintro">The sequence matters more than usual here: the URL migration in week one changes the addresses that everything else references, so doing content work first means doing it twice.</p>
+  <div class="plan">
+
+    <div class="phase">
+      <div class="when"><b>This week</b><span>JBK-01 → JBK-04</span></div>
+      <ol>
+        <li><b>Move DNS off orderbox-dns</b> to Cloudflare or Route 53, port every record, enable DNSSEC, then verify resolution on 1.1.1.1, 8.8.8.8 and 9.9.9.9. Nothing else on this list matters until a Cloudflare user can reach the site.</li>
+        <li><b>Pick the bare domain as canonical</b> and ship it everywhere in one deploy — canonicals, OG, all schema URLs, sitemap.xml, robots.txt, llms.txt.</li>
+        <li><b>Add the redirects</b>: http → https, and www → bare. Then HSTS.</li>
+        <li><b>Settle the trailing slash</b> so published URLs and internal links stop redirecting.</li>
+        <li><b>Re-submit the sitemap</b> in Search Console and watch the Pages report for the http/www URLs falling out.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="when"><b>Weeks 2–4</b><span>JBK-05 → JBK-16</span></div>
+      <ol>
+        <li><b>Regenerate every meta description</b> at ~155 characters, and switch product-page titles to the short brand suffix.</li>
+        <li><b>Remove <code>/products-index</code> from the sitemap</b> and build a real 404 page.</li>
+        <li><b>Re-export the logos</b> to AVIF/WebP or SVG and resolve the duplicate header-logo preload — 420 KB for an hour's work.</li>
+        <li><b>Enable Brotli</b> and add the four security headers.</li>
+        <li><b>Remove the Lighthouse/PageSpeed user-agent exception</b> so your measurements describe the page real visitors get.</li>
+        <li><b>Audit the JS bundle</b> and eliminate one of the two overlapping component libraries.</li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="when"><b>The quarter</b><span>JBK-07, JBK-19 → JBK-22</span></div>
+      <ol>
+        <li><b>Correct the third-party profiles</b> — IndiaMART, TradeIndia, PharmaSource, RocketReach — so "distributor, not manufacturer" is consistent everywhere, and claim a Google Business Profile.</li>
+        <li><b>Resolve CAS to PubChem/Wikidata</b> across all 233 products and add <code>sameAs</code> plus <code>identifier</code>. The highest-leverage single change for AI visibility.</li>
+        <li><b>Add product imagery</b> and wire <code>image</code> into Product schema.</li>
+        <li><b>Expand the top 30–40 products</b> to 400–600 words of real specification content, with pack sizes, MOQ and lead times.</li>
+        <li><b>Publish six to ten answer-shaped articles</b> on the creatine-comparison model: one question, real data, method disclosed.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Method — all 274 sitemap URLs fetched and parsed for title, description, canonical, robots, headings, word count, internal links and JSON-LD. DNS checked against Google, Cloudflare and AdGuard resolvers. Headers, redirects, compression and cache policy checked per response. Asset payloads measured over the wire.<br>
+  Note — the archive in this repository ("JBK Website final.zip") is an April 2026 Figma Make export with a 1.2 KB placeholder index.html and no SEO layer. It predates the live site substantially and is not the codebase these fixes apply to; the audit was performed entirely against production.<br>
+  Not verifiable from here — Search Console coverage and Core Web Vitals field data, actual index counts, and PageSpeed lab scores (the API quota was exhausted). Check those in Search Console once the week-one fixes are live.
+</footer>
+
+</div>
